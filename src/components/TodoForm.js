@@ -2,7 +2,7 @@ import { hasSelectionSupport } from '@testing-library/user-event/dist/utils';
 import React,{useState,useEffect,useRef} from 'react'
 
 export default function TodoForm(props) {
-    const[input,setInput] = useState('');
+    const[input,setInput] = useState(' ');
 
     const inputRef = useRef(null);
 
@@ -27,16 +27,35 @@ export default function TodoForm(props) {
 
     return (
         <form className='todo-form' onSubmit={handleSubmit}>
-            <input
-            type = 'text'
-            className='todo-input'
-            name='text'
+            {props.edit ? (
+        <>
+          <input
+            placeholder='Update your item'
             value={input}
-            placeholder='Add a todo items'
             onChange={handleChange}
+            name='text'
             ref={inputRef}
-            />
-            <button className='todo-button'>Add Todo</button>
+            className='todo-input edit'
+          />
+          <button onClick={handleSubmit} className='todo-button edit'>
+            Update
+          </button>
+        </>
+      ) : (
+        <>
+          <input
+            placeholder='Add a todo'
+            value={input}
+            onChange={handleChange}
+            name='text'
+            className='todo-input'
+            ref={inputRef}
+          />
+          <button onClick={handleSubmit} className='todo-button'>
+            Add todo
+          </button>
+        </>
+      ) }
         </form>
     )
 }
